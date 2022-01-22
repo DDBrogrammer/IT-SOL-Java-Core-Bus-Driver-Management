@@ -1,8 +1,9 @@
 package entity;
 
+import java.io.Serializable;
 import java.util.Map;
 
-public class Roster {
+public class Roster implements Serializable {
      private Driver driver;
      private Map<Route,Integer> routeList;
 

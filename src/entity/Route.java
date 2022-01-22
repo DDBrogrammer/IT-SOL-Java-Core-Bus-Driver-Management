@@ -15,6 +15,10 @@ public class Route implements Serializable {
         this.distance = distance;
         this.totalBusStop = totalBusStop;
     }
+    public Route( int distance, int totalBusStop) {
+        this.distance = distance;
+        this.totalBusStop = totalBusStop;
+    }
 
     public int getId() {
         return id;

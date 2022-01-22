@@ -1,6 +1,8 @@
 package entity;
 
-public class Person {
+import java.io.Serializable;
+
+public class Person  implements Serializable {
     private String name;
     private String address;
     private String phone;
@@ -9,6 +11,7 @@ public class Person {
     }
 
     public Person(String name, String address, String phone) {
+        super();
         this.name = name;
         this.address = address;
         this.phone = phone;

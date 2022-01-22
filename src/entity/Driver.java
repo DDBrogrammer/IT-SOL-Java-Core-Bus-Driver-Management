@@ -1,16 +1,24 @@
 package entity;
 
-public class Driver extends Person{
-    private int id;
-    private String drivingSkill;
+import java.io.Serializable;
 
-    public Driver(String name, String address, String phone, int id, String drivingSkill) {
+public class Driver extends Person implements Serializable {
+    private int id;
+    private String skillLevel;
+    private static final long serialVersionUID = 1L;
+
+    public Driver(String name, String address, String phone, int id, String skillLevel) {
         super(name, address, phone);
         this.id = id;
-        this.drivingSkill = drivingSkill;
+        this.skillLevel = skillLevel;
     }
+    public Driver(String name, String address, String phone, String skillLevel) {
+        super(name, address, phone);
+        this.skillLevel = skillLevel;
+    }
+    public Driver() {
 
-    public Driver(){}
+    }
 
     public int getId() {
         return id;
@@ -20,19 +28,19 @@ public class Driver extends Person{
         this.id = id;
     }
 
-    public String getDrivingSkill() {
-        return drivingSkill;
+    public String getSkillLevel() {
+        return skillLevel;
     }
 
-    public void setDrivingSkill(String drivingSkill) {
-        this.drivingSkill = drivingSkill;
+    public void setSkillLevel(String skillLevel) {
+        this.skillLevel = skillLevel;
     }
 
     @Override
     public String toString() {
         return "Driver{" +
                 "id=" + id +
-                ", drivingSkill='" + drivingSkill + '\'' +
+                ", skillLevel=" + skillLevel +
                 "} " + super.toString();
     }
 }
