@@ -21,8 +21,6 @@ public class MainRun {
      mainRun();
     }
     private static void  mainRun(){
-        rosterDAO.deleteAll();
-        routeDAO.deleteAll();
           do{
 
               helper.printMenu();
