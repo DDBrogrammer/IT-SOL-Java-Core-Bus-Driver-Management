@@ -1,0 +1,70 @@
+package main;
+
+import controller.DriverController;
+import controller.RosterController;
+import controller.RouteController;
+import repository.RosterDAO;
+import repository.RouteDAO;
+import util.file.FileUtil;
+import util.helper.Helper;
+
+public class MainRun {
+    public static Helper helper=new Helper();
+    public static DriverController driverController=new DriverController();
+    public static RouteController routeController=new RouteController();
+    public static RosterController rosterController=new RosterController();
+    public static RosterDAO  rosterDAO=new RosterDAO();
+    public static RouteDAO routeDAO=new RouteDAO();
+    public static boolean run =true;
+    public static FileUtil fileUtil=new FileUtil();
+    public static void main(String[] args) {
+     mainRun();
+    }
+    private static void  mainRun(){
+        rosterDAO.deleteAll();
+        routeDAO.deleteAll();
+          do{
+
+              helper.printMenu();
+              int chose= helper.getInt(" ");
+              switch (chose) {
+                  case 1 -> {
+                      if (!driverController.driverManage()) {
+                          break;
+                      }
+                      helper.askContinue();
+                  }
+                  case 2 -> {
+                      if (!routeController.routerManage()) {
+                          break;
+                      }
+                    helper.askContinue();
+                  }
+                  case 3 -> {
+                      if (!rosterController.rosterManage()) {
+                          break;
+                      }
+                     helper.askContinue();
+                  }
+                  case 4 -> {
+                      if (!rosterController.sortRosterManage()) {
+                          break;
+                      }
+                      helper.askContinue();
+
+                  }
+                  case 5 -> {
+                      rosterController.printListTotalRange();
+                     helper.askContinue();
+                  }
+                  case 6 -> run = false;
+                  default -> System.out.println("Bạn phải nhập số nguyên trong khoảng từ 1 đến 5");
+              }
+          }while(run);
+          System.out.println("Đã thoát chương trình");
+      }
+
+
+
+
+}

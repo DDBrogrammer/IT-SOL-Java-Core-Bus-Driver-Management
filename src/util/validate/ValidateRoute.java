@@ -1,4 +1,4 @@
-package helper;
+package util.validate;
 
 public class ValidateRoute {
 }

@@ -1,4 +1,6 @@
-package helper;
+package util.helper;
+
+import main.MainRun;
 
 import java.util.Scanner;
 
@@ -6,11 +8,10 @@ public class Helper {
 
     private static final String SPECIAL_CHAR_AND_NUMBER_REGEX="[$&+,:;=?@#|'<>.-^*()%!0123456789]";
     private static final String SPECIAL_CHAR_REGEX="[$&+,:;=?@#|'<>.-^*()%!]";
-
-    public static String getNormalizedString(String str) {
+    public  String getNormalizedString(String str) {
         str = normalize(str);
         String temp[] = str.split(" ");
-        str = ""; // ? ^-^
+        str = "";
         for (int i = 0; i < temp.length; i++) {
             str += String.valueOf(temp[i].charAt(0)).toUpperCase() + temp[i].substring(1);
             if (i < temp.length - 1) // ? ^-^
@@ -18,7 +19,7 @@ public class Helper {
         }
         return str;
     }
-    public static String normalize(String str) {
+    public  String normalize(String str) {
         str = str.trim();
         str = str.replaceAll("\\s+", " ");
         return str;
@@ -28,28 +29,6 @@ public class Helper {
                 && (str != null)
                 && (!str.matches(SPECIAL_CHAR_AND_NUMBER_REGEX)));
     }
-
-    public boolean checkContainLetterAndNumberOnly(String str){
-        return ((!str.equals(""))
-                && (str != null)
-                && (!str.matches(SPECIAL_CHAR_REGEX)));
-    }
-    static String getConvertString(String str){
-        boolean check=true;
-        char[] ch = new char[str.length()];
-        for (int i = 0; i < str.length(); i++) {
-            if(check){
-                ch[i] =Character.toUpperCase(str.charAt(i));
-                check=false;
-            }else{
-                ch[i] =Character.toLowerCase(str.charAt(i));
-                check=true;
-            }
-        }
-        String res= String.valueOf(ch);
-        return res;
-    }
-
     public  void printMenu() {
         System.out.println("Nhập lựa chọn:\n"
                 + "[1] Quản lý lái xe.\n"
@@ -60,13 +39,17 @@ public class Helper {
                 + "[6] Thoát chương  trình.");
     }
 
+    public void askContinue() {
+        if (!askYesNo()) {
+            MainRun.run = false;
+        }
+    }
     public  int getInt(String ask) {
         boolean run=true;
         int a=0;
         while(run==true) {try {
-            Scanner sc = new Scanner(System.in);
             System.out.println(ask);
-            a = sc.nextInt();
+            a =new Scanner(System.in).nextInt() ;
             run=false;
 
         }catch(Exception e ) {
@@ -82,9 +65,8 @@ public class Helper {
         boolean run=true;
         String s="";
         while(run==true) {try {
-            Scanner sc = new Scanner(System.in);
             System.out.println(ask);
-            s = sc.nextLine();
+            s =new Scanner(System.in).nextLine() ;
             run=false;
         }
         catch(Exception e ) {
@@ -99,9 +81,8 @@ public class Helper {
         boolean run=true;
         Double d=0.0;
         while(run==true) {try {
-            Scanner sc = new Scanner(System.in);
             System.out.println(ask);
-            d = sc.nextDouble();
+            d =new Scanner(System.in).nextDouble() ;
             run=false;
         }
         catch(Exception e ) {

@@ -3,6 +3,7 @@ package repository;
 import entity.Driver;
 import entity.Roster;
 import entity.Route;
+import main.MainRun;
 
 import java.io.*;
 import java.util.*;
@@ -16,14 +17,9 @@ public class RosterDAO implements DataAccessible<Roster,Integer> {
         ArrayList<Roster> newRosterArrayList = new ArrayList();
         int driverId=roster.getDriver().getId();
         if( ROSTER_DATA_FILE.length()!=0 ) {
-            try {
-                FileInputStream fi = new FileInputStream(ROSTER_DATA_FILE);
-                ObjectInputStream oi = new ObjectInputStream(fi);
                 // Read objects
-                ArrayList<Roster> fileRosterArrayList = (ArrayList<Roster>) oi.readObject();
-                /*System.out.println("run");*/
+                ArrayList<Roster> fileRosterArrayList = getAll();
                 if(findById(driverId).getDriver().getId()==roster.getDriver().getId()){
-                   /* System.out.println("Run-2");*/
                     for(Roster ros:fileRosterArrayList){
                         if(ros.getDriver().getId()==roster.getDriver().getId()){
                             ros.setRouteList(roster.getRouteList());
@@ -31,102 +27,26 @@ public class RosterDAO implements DataAccessible<Roster,Integer> {
                         }
                     }
                 }else {
-                   /* System.out.println("Run-3");*/
                     fileRosterArrayList.add(roster);
                 }
-                oi.close();
-                fi.close();
                 deleteAll();
-                FileOutputStream f = new FileOutputStream(ROSTER_DATA_FILE);
-                ObjectOutputStream o = new ObjectOutputStream(f);
-                o.writeObject(fileRosterArrayList);
-                o.flush();
-                o.close();
-                checkSave = true;
-            } catch (EOFException eof) {
-                // end of file reached, do nothing
-            } catch (FileNotFoundException e) {
-                checkSave = false;
-                System.out.println("File not found");
-            } catch (IOException e) {
-                checkSave = false;
-                System.out.println(e);
-                System.out.println("Error initializing stream");
-            } finally {
-                return checkSave;
-            }
-
+                checkSave = MainRun.fileUtil.writeDataToFile(fileRosterArrayList,ROSTER_DATA_FILE);
         }else {
-            try {
-                FileOutputStream f = new FileOutputStream(ROSTER_DATA_FILE);
-                ObjectOutputStream o = new ObjectOutputStream(f);
-                newRosterArrayList.add(roster);
-                o.writeObject(newRosterArrayList);
-                o.flush();
-                o.close();
-                checkSave= true;
-            } catch (EOFException eof) {
-                // end of file reached, do nothing
-            } catch (FileNotFoundException e) {
-                checkSave = false;
-                System.out.println("File not found");
-            } catch (IOException e) {
-                checkSave = false;
-                System.out.println(e);
-                System.out.println("Error initializing stream");
-            } finally {
-                return checkSave;
-            }
-
+            newRosterArrayList.add(roster);
+            checkSave = MainRun.fileUtil.writeDataToFile(newRosterArrayList,ROSTER_DATA_FILE);
         }
+        return checkSave;
     }
 
     public boolean deleteAll() {
-        boolean ok = false;
-        try {
-            new FileOutputStream(ROSTER_DATA_FILE).close();
-            ok=true;}
-        catch (EOFException eof) {
-            // end of file reached, do nothing
-        } catch (FileNotFoundException e) {
-            ok = false;
-            System.out.println("File not found");
-        } catch (IOException e) {
-            ok = false;
-            System.out.println(e);
-            System.out.println("Error initializing stream");
-        } finally {
-            return ok;
-        }
+        return MainRun.fileUtil.deleteFileData(ROSTER_DATA_FILE);
     }
 
     public ArrayList<Roster> getAll() {
         ArrayList<Roster> rosterArrayList = new ArrayList();
         if(ROSTER_DATA_FILE.length()!=0){
-            try {
-                FileInputStream fi = new FileInputStream(ROSTER_DATA_FILE);
-                ObjectInputStream oi = new ObjectInputStream(fi);
-                // Read objects
-                ArrayList<Roster> fileRosterArrayList = (ArrayList<Roster>) oi.readObject();
-                for (Roster roster : fileRosterArrayList) {
-                    rosterArrayList.add(roster);
-                }
-                oi.close();
-                fi.close();
-            }
-            catch (FileNotFoundException e) {
-                System.out.println("File not found");
-            } catch (EOFException e) {
-            } catch (IOException e) {
-                System.out.println("Error initializing stream");
-            } catch (ClassNotFoundException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            } finally {
-                return rosterArrayList;
-            }
-
-        }else {return rosterArrayList;}
+            rosterArrayList= (ArrayList<Roster>) MainRun.fileUtil.readDataFromFile(ROSTER_DATA_FILE,rosterArrayList);
+        }return rosterArrayList;
     }
 
     public Roster findById(Integer id) {
