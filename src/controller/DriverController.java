@@ -10,10 +10,11 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 public class DriverController {
-        private ValidateDriver validateDriver=new ValidateDriver();
-        private DriverDAO driverDAO=new DriverDAO();
+    private ValidateDriver validateDriver = new ValidateDriver();
+    private DriverDAO driverDAO = new DriverDAO();
+
     public void getInputEntity() {
-        String name, address,phone, skillLevel ;
+        String name, address, phone, skillLevel;
         do {
             name = MainRun.helper.getString("Nhập tên lái xe:");
         } while (!validateDriver.validateName(name));
@@ -28,46 +29,48 @@ public class DriverController {
         do {
             skillLevel = MainRun.helper.getString("Nhập trình độ lái xe:");
         } while (!validateDriver.validateSkillLevel(skillLevel));
-        Driver newStudent = new Driver(MainRun.helper.getNormalizedString(name),MainRun.helper.getNormalizedString(address),phone,skillLevel.toUpperCase(Locale.ROOT));
-        if(driverDAO.save(newStudent)){
+        Driver newStudent = new Driver(MainRun.helper.getNormalizedString(name), MainRun.helper.getNormalizedString(address), phone, skillLevel.toUpperCase(Locale.ROOT));
+        if (driverDAO.save(newStudent)) {
             System.out.println("Thêm lái xe mới thành công");
-        }
-        else{
+        } else {
             System.out.println("Đã xảy ra lỗi khi thêm lái xe");
         }
     }
-    public  void getInputListEntity( ){
-        int numberOfTeacher= MainRun.helper.getInt("Nhập số lượng lái xe cần thêm: ");
-        for (int i=0;i<=numberOfTeacher-1 ; i++){
+
+    public void getInputListEntity() {
+        int numberOfTeacher = MainRun.helper.getInt("Nhập số lượng lái xe cần thêm: ");
+        for (int i = 0; i <= numberOfTeacher - 1; i++) {
             getInputEntity();
         }
     }
-    public void printListData(){
-        ArrayList<Driver> driverArrayList= driverDAO.getAll();
-        for(Driver d:driverArrayList){
+
+    public void printListData() {
+        ArrayList<Driver> driverArrayList = driverDAO.getAll();
+        for (Driver d : driverArrayList) {
             System.out.println(d.toString());
         }
     }
+
     public boolean driverManage() {
         int chose_1;
-        boolean run=false;
+        boolean run = false;
         do {
             chose_1 = MainRun.helper.getInt("Nhập lựa chọn:\n"
                     + "[1] Thêm người lái.\n"
                     + "[2] Xem danh sách người lái.\n"
                     + "[3] Quay lại.\n"
             );
-            if(chose_1>=1 && chose_1<=3){
+            if (chose_1 >= 1 && chose_1 <= 3) {
                 break;
             }
             System.out.println("Bạn phải nhập số nguyên từ 1 đến 3");
-        } while(true);
-        if(chose_1==1){
+        } while (true);
+        if (chose_1 == 1) {
             getInputListEntity();
-            run= true;
-        }else if(chose_1==2){
+            run = true;
+        } else if (chose_1 == 2) {
             printListData();
-            run=true;
+            run = true;
         }
         return run;
     }

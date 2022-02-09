@@ -1,5 +1,7 @@
 package util.file;
 
-public interface DataReadable {
+import java.io.File;
 
+public interface DataReadable {
+     Object readDataFromFile(File file);
 }

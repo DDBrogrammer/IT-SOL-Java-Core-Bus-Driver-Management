@@ -5,9 +5,9 @@ import entity.Roster;
 import java.io.*;
 import java.util.ArrayList;
 
-public class FileUtil implements DataReadable,DataWriteable,DataDeletable{
-    public  boolean writeDataToFile(Object obj, File file){
-        boolean ok=false;
+public class FileUtil implements DataReadable, DataWriteable, DataDeletable {
+    public boolean writeDataToFile(Object obj, File file) {
+        boolean ok = false;
         try {
             FileOutputStream f = new FileOutputStream(file);
             ObjectOutputStream o = new ObjectOutputStream(f);
@@ -26,9 +26,10 @@ public class FileUtil implements DataReadable,DataWriteable,DataDeletable{
             return ok;
         }
     }
-    public  Object readDataFromFile(File file){
-        Object obj=new Object();
-        if(file.length()!=0){
+
+    public Object readDataFromFile(File file) {
+        Object obj = new Object();
+        if (file.length() != 0) {
             try {
                 FileInputStream fi = new FileInputStream(file);
                 ObjectInputStream oi = new ObjectInputStream(fi);
@@ -36,8 +37,7 @@ public class FileUtil implements DataReadable,DataWriteable,DataDeletable{
                 obj = oi.readObject();
                 oi.close();
                 fi.close();
-            }
-            catch (FileNotFoundException e) {
+            } catch (FileNotFoundException e) {
                 System.out.println("File not found");
             } catch (EOFException e) {
             } catch (IOException e) {
@@ -54,18 +54,17 @@ public class FileUtil implements DataReadable,DataWriteable,DataDeletable{
     }
 
 
-    public  ArrayList<Roster> readDataFromFile(File file, ArrayList<Roster> arrayList){
-        ArrayList<Roster> rosterList=new ArrayList<Roster>();
-        if(file.length()!=0){
+    public ArrayList<Roster> readDataFromFile(File file, ArrayList<Roster> arrayList) {
+        ArrayList<Roster> rosterList = new ArrayList<Roster>();
+        if (file.length() != 0) {
             try {
                 FileInputStream fi = new FileInputStream(file);
                 ObjectInputStream oi = new ObjectInputStream(fi);
                 // Read objects
-                rosterList= (ArrayList<Roster>) oi.readObject();
+                rosterList = (ArrayList<Roster>) oi.readObject();
                 oi.close();
                 fi.close();
-            }
-            catch (FileNotFoundException e) {
+            } catch (FileNotFoundException e) {
                 System.out.println("File not found");
             } catch (EOFException e) {
             } catch (IOException e) {
@@ -81,12 +80,13 @@ public class FileUtil implements DataReadable,DataWriteable,DataDeletable{
         }
         return rosterList;
     }
-    public  boolean deleteFileData(File file){
+
+    public boolean deleteFileData(File file) {
         boolean ok = false;
         try {
             new FileOutputStream(file).close();
-            ok=true;}
-        catch (EOFException eof) {
+            ok = true;
+        } catch (EOFException eof) {
             // end of file reached, do nothing
         } catch (FileNotFoundException e) {
             ok = false;
